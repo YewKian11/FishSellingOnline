@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FishSellingOnline.Migrations
 {
     [DbContext(typeof(FishSellingOnlineContext))]
-    [Migration("20210731143254_createusertable")]
+    [Migration("20210731150228_createusertable")]
     partial class createusertable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
