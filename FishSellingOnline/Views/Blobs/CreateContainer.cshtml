@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewData["Title"] = "CreateContainer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create a new container</h1>
+
+<p>
+    The @ViewBag.ContainerName container is 
+    @(ViewBag.result == true ? " successfully created!" : " not created! Same container existed!")
+</p>

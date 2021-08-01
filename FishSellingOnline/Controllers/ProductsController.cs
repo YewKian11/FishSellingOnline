@@ -9,6 +9,9 @@ using FishSellingOnline.Data;
 using FishSellingOnline.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.Azure.Storage.Blob;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Azure.Storage;
 
 namespace FishSellingOnline.Views
 {
@@ -18,6 +21,7 @@ namespace FishSellingOnline.Views
 
         public ProductsController(FishSellingOnlineProductContext context)
         {
+
             _context = context;
         }
 
@@ -60,12 +64,18 @@ namespace FishSellingOnline.Views
         {
             if (ModelState.IsValid)
             {
-                foreach(var item in ProductImage)
+                CloudBlobContainer container = getBlobContainerInformation();
+                CloudBlockBlob blobitem = null;
+                foreach (var item in ProductImage)
                 {
-                    if(item.Length > 0)
+                    if (item.Length > 0)
                     {
+                        blobitem = container.GetBlockBlobReference(item.FileName);
+                        var blobstream = item.OpenReadStream();
+                        blobitem.UploadFromStreamAsync(blobstream).Wait();
                         using (var stream = new MemoryStream())
                         {
+
                             await item.CopyToAsync(stream);
                             product.ProductImage = stream.ToArray();
                         }
@@ -110,10 +120,15 @@ namespace FishSellingOnline.Views
             {
                 try
                 {
+                    CloudBlobContainer container = getBlobContainerInformation();
+                    CloudBlockBlob blobitem = null;
                     foreach (var item in ProductImage)
                     {
                         if (item.Length > 0)
                         {
+                            blobitem = container.GetBlockBlobReference(item.FileName);
+                            var blobstream = item.OpenReadStream();
+                            blobitem.UploadFromStreamAsync(blobstream).Wait();
                             using (var stream = new MemoryStream())
                             {
                                 await item.CopyToAsync(stream);
@@ -172,6 +187,22 @@ namespace FishSellingOnline.Views
         private bool ProductExists(int id)
         {
             return _context.Product.Any(e => e.ProductID == id);
+        }
+
+
+        private CloudBlobContainer getBlobContainerInformation()
+        {
+            var builder = new ConfigurationBuilder()
+                            .SetBasePath(Directory.GetCurrentDirectory())
+                            .AddJsonFile("appsettings.json");
+            IConfigurationRoot configure = builder.Build();
+
+            CloudStorageAccount objectaccount =
+            CloudStorageAccount.Parse(configure["ConnectionStrings:fishsellingonlineconnection"]);
+
+            CloudBlobClient blobclient = objectaccount.CreateCloudBlobClient();
+            CloudBlobContainer container = blobclient.GetContainerReference("fishsellingonlineblob");
+            return container;
         }
     }
 }
