@@ -21,7 +21,8 @@ namespace FishSellingOnline.Areas.Identity
                         context.Configuration.GetConnectionString("FishSellingOnlineContextConnection")));
 
                 services.AddDefaultIdentity<FishSellingOnlineUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<FishSellingOnlineContext>();
+                .AddRoles<IdentityRole>()    
+                .AddEntityFrameworkStores<FishSellingOnlineContext>();
             });
         }
     }

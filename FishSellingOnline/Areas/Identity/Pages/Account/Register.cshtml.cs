@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FishSellingOnline.Areas.Identity.Pages.Account
 {
@@ -36,13 +37,23 @@ namespace FishSellingOnline.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
         }
+      
+       public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public SelectList RoleselectList = new SelectList
+            (
+            new List<SelectListItem> {
 
+             new SelectListItem{ Selected = true,Text="Select Role",Value=""},
+              new SelectListItem{ Selected = true,Text="Customer",Value="Customer"},
+               new SelectListItem{ Selected = true,Text="Seller",Value="Seller"},
+                new SelectListItem{ Selected = true,Text="Admin",Value="Admin"}  
+            }, "Value","Text",1);
         [BindProperty]
         public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
 
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+ 
 
         public class InputModel
         {
@@ -80,6 +91,8 @@ namespace FishSellingOnline.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Must give your contact number before register!")]
             public int ContactNumber { get; set; }
 
+            [Display(Name = "Roles")]
+            public string userRoles { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -87,6 +100,7 @@ namespace FishSellingOnline.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
+
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
@@ -103,8 +117,19 @@ namespace FishSellingOnline.Areas.Identity.Pages.Account
                     ContactNumber = Input.ContactNumber
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
+
+                // Line 108 for Customer Register 
+               var role =  Roles.Customer.ToString();
+                if (Input.userRoles == "Admin") {
+                    role = Roles.Admin.ToString();
+                }
+                if (Input.userRoles == "Seller")
                 {
+                    role = Roles.Seller.ToString();
+                }
+                if (result.Succeeded)
+                {   // Line 112 Link Role with Customer Register, var in line 97 & 108
+                    await _userManager.AddToRoleAsync(user, role);
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
