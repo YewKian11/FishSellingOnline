@@ -7,12 +7,6 @@
     "mssql2": {
       "type": "mssql.local",
       "connectionId": "ConnectionStrings:FishSellingOnlineProductContext"
-    },
-    "storage1": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/fishsellingonlinestorage",
-      "type": "storage.azure",
-      "connectionId": "fishsellingonlineconnection",
-      "secretStore": null
     }
   }
 }

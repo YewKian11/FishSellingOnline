@@ -36,7 +36,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('fishsellingonlinestorage', subscription().subscriptionId)))]",
+      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('fishsellingonlineitem', subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
       "apiVersion": "2019-10-01",
       "dependsOn": [
@@ -49,15 +49,26 @@
           "contentVersion": "1.0.0.0",
           "resources": [
             {
-              "sku": {
-                "name": "Standard_LRS",
-                "tier": "Standard"
-              },
-              "kind": "Storage",
-              "name": "fishsellingonlinestorage",
-              "type": "Microsoft.Storage/storageAccounts",
+              "kind": "v12.0",
               "location": "[parameters('resourceLocation')]",
-              "apiVersion": "2017-10-01"
+              "name": "fishsellingonline",
+              "type": "Microsoft.Sql/servers",
+              "apiVersion": "2017-10-01-preview"
+            },
+            {
+              "sku": {
+                "name": "Basic",
+                "tier": "Basic",
+                "capacity": 5
+              },
+              "kind": "v12.0,user",
+              "location": "[parameters('resourceLocation')]",
+              "name": "fishsellingonline/fishsellingonlineitem",
+              "type": "Microsoft.Sql/servers/databases",
+              "apiVersion": "2017-10-01-preview",
+              "dependsOn": [
+                "fishsellingonline"
+              ]
             }
           ]
         }
@@ -65,6 +76,6 @@
     }
   ],
   "metadata": {
-    "_dependencyType": "storage.azure"
+    "_dependencyType": "mssql.azure"
   }
 }

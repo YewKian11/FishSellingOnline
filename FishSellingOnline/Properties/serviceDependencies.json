@@ -7,10 +7,6 @@
     "mssql2": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:FishSellingOnlineProductContext"
-    },
-    "storage1": {
-      "type": "storage",
-      "connectionId": "fishsellingonlineconnection"
     }
   }
 }
