@@ -63,7 +63,7 @@ else
                     <a asp-action="Details" asp-route-id="@item.OrderID">Details</a> 
                     @if (User.IsInRole("Seller") || User.IsInRole("Customer"))
                     {
-                        |< a asp-action="Delete" asp-route-id="@item.OrderID">Cancel order</a>
+                        <a asp-action="Delete" asp-route-id="@item.OrderID">| Cancel order</a>
                     }
                 </td>
             </tr>
