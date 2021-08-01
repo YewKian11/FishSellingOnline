@@ -47,7 +47,7 @@ namespace FishSellingOnline.Controllers
 
         // GET: Products/AddToCart
 
-        public IActionResult AddToCart()
+        public IActionResult Cart()
         {
             return View();
         }
