@@ -15,5 +15,7 @@ namespace FishSellingOnline.Data
         }
 
         public DbSet<FishSellingOnline.Models.Product> Product { get; set; }
+
+        public DbSet<FishSellingOnline.Models.Order> Order { get; set; }
     }
 }

@@ -4,14 +4,16 @@ using FishSellingOnline.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FishSellingOnline.Migrations.FishSellingOnlineProduct
 {
     [DbContext(typeof(FishSellingOnlineProductContext))]
-    partial class FishSellingOnlineProductContextModelSnapshot : ModelSnapshot
+    [Migration("20210801150045_addordertable")]
+    partial class addordertable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
