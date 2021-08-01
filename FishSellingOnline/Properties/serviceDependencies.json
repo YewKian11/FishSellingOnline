@@ -1,12 +1,16 @@
 {
   "dependencies": {
-    "mssql1": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:FishSellingOnlineContextConnection"
+    "storage1": {
+      "type": "storage",
+      "connectionId": "ConnectionStrings:fishsellingonlineconnection"
     },
     "mssql2": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:FishSellingOnlineProductContext"
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:FishSellingOnlineContextConnection"
     }
   }
 }

@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "storage1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/fishsellingonlinestorage",
+      "type": "storage.azure",
+      "connectionId": "ConnectionStrings:fishsellingonlineconnection",
+      "secretStore": null
+    },
+    "mssql2": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/fishsellingonline/databases/fishsellingonlineitem",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:FishSellingOnlineProductContext",
+      "secretStore": null
+    },
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/fishsellingonline/databases/fishsellingonline",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:FishSellingOnlineContextConnection",
+      "secretStore": null
+    }
+  }
+}
