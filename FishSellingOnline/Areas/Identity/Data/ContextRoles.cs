@@ -24,7 +24,6 @@ namespace FishSellingOnline.Areas.Identity.Data
             await roleManager.CreateAsync(new IdentityRole(Roles.Customer.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Roles.Seller.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Roles.Admin.ToString()));
-          
         }
     }
 }

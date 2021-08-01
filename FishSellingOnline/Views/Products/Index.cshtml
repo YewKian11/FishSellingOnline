@@ -72,6 +72,12 @@
                 }
 
             </td>
+            <td>
+                @if (User.IsInRole("Customer"))
+                {
+                    <a asp-action="AddToCart" asp-route-id="@item.ProductID">Add to cart</a>
+                }
+            </td>
         </tr>
 }
     </tbody>
