@@ -73,7 +73,7 @@
 
             </td>
             <td>
-                @if (User.InRole("Customer"))
+                @if (User.IsInRole("Customer"))
                 {
                     <a asp-action="AddToCart" asp-route-id="@item.ProductID">Add to cart</a>
                 }
