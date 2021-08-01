@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "ListItemGallery";
+}
+
+<h1>ListItemGallery</h1>
+
+<ul>
+
+    @foreach (var item in Model)
+    {
+        <li>@item</li>
+    }
+</ul>
+
+
+<br />
+<br />
+<!--Delete & Download Button for Image in Gallery-->
+
+<ul>
+
+    @foreach (var item in Model)
+    {
+        string[] imagearray = item.Split("#");
+        <li>
+            <!-- Image, Label, Download, Delete-->
+            <img src="@imagearray[1]" width="200" height="300" />
+            <label style="color:indianred">@imagearray[0]</label>
+            <a asp-route-imagename="@imagearray[0]" asp-route-urlimage="@imagearray[1]" asp-action="downloadblob">Download Image</a>
+            <a asp-area="@imagearray[0]" asp-action="deleteblob">Delete Image</a>
+        </li>
+    }
+</ul>
+    @if (ViewBag.msg != null) 
+    {
+    <script>alert("@ViewBag.msg");</script>
+    }
