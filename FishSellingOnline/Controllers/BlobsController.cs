@@ -12,6 +12,8 @@ namespace FishSellingOnline.Controllers
 {
     public class BlobsController : Controller
     {
+        private CloudBlockBlob blob;
+
         private CloudBlobContainer getBlobContainerInformation()
         {
             var builder = new ConfigurationBuilder()
@@ -78,17 +80,24 @@ namespace FishSellingOnline.Controllers
         }
 
         //Download Blob refer, asp-action 
-        public ActionResult downloadblob(string imagename,string urlimage) {
+        public async Task<ActionResult> downloadblobAsync(string imagename,string urlimage) {
             CloudBlobContainer container = getBlobContainerInformation();
             string message = null;
-
+          
             try
             {
-                CloudBlockBlob item = container.GetBlockBlobReference(imagename);
-                var outputitem = System.IO.File.OpenWrite(@"C:\Users\Public\Pictures\" + imagename);
-                item.DownloadToStreamAsync(outputitem).Wait();
-                message = imagename + " is downloaded successfully";
-                outputitem.Close();
+                // CloudBlockBlob item = container.GetBlockBlobReference(imagename);
+                // var outputitem = System.IO.File.OpenWrite(@"C:\\Users\\\Kong\\Downloads\\"+imagename);
+                //item.DownloadToStreamAsync(outputitem).Wait();
+                //message = imagename + " is downloaded successfully" ;
+                await using (MemoryStream ms = new MemoryStream())
+                {
+                    blob = container.GetBlockBlobReference(imagename);
+                    await blob.DownloadToStreamAsync(ms);
+                }
+                Stream blobstream = blob.OpenReadAsync().Result;
+                return File(blobstream, blob.Properties.ContentType, blob.Name);
+              //  outputitem.Close();
             }
             catch (Exception ex)
             {
